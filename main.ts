@@ -1,12 +1,6 @@
 import fs from 'fs';
 import { log } from './src/debug';
-
-// city(node) structure
-interface city {
-  id: number;
-  x: number;
-  y: number;
-}
+import { city, distMatrix } from './src/TSP';
 
 /* ======== MAIN ======== */
 // array to hold cities vector
@@ -28,4 +22,5 @@ for (let i = 0; i < lines.length; i++) {
   cities.push({ id, x, y });
 }
 
-log(cities)
+log(cities);
+log(distMatrix(cities));
