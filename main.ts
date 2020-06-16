@@ -8,6 +8,7 @@ import {
   eulerCitcuit,
   convertHamilton,
   hamiltonToTSP,
+  twoOpt,
 } from './src/TSP';
 
 /* ======== MAIN ======== */
@@ -57,3 +58,6 @@ let cost = hamiltonToTSP(cities, matrix, hamilton, tsp);
 
 log(`cost: ${cost}`)
 log(tsp)
+
+cost = twoOpt(tsp);
+console.log("cost after 2-opt: ", cost);

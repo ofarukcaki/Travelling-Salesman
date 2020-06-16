@@ -238,9 +238,76 @@ export function hamiltonToTSP(
     tsp.push(cities[hamilton[i]]);
   }
 
+  // lastly, add the first city to end of the path to complate the full path.
   const last = hamilton[hamilton.length - 1];
   tsp.push(cities[last]);
   cost += matrix[hamilton[0]][last];
 
   return cost;
+}
+
+function getTravelCost(path: Array<city>) {
+  let cost = 0;
+
+  for (let i = 0; i < path.length - 1; i++)
+    cost += distanceBetween(path[i], path[i + 1]);
+
+  return cost;
+}
+
+function swap(path: Array<city>, i: number, j: number) {
+  // new path
+  let newPath: Array<city> = [];
+  const size = path.length;
+
+  // from path[0] to path[i-1] stays the same
+  for (let k = 0; k <= i - 1; k++) {
+    newPath.push(path[k]);
+  }
+
+  // add from path[i] to path[j] in reverse order to new path
+  for (let k = j; k >= i; k--) {
+    newPath.push(path[k]);
+  }
+
+  // add from path[j+1] to end to new tour
+  for (let k = j + 1; k < size; k++) {
+    newPath.push(path[k]);
+  }
+
+  return newPath;
+}
+
+export function twoOpt(path: Array<city>) {
+  // add the first city to end of the path to complate the full path.
+  path.push(path[0]);
+
+  let numCities = path.length - 1;
+  let currentCost = getTravelCost(path);
+  let improve: boolean;
+
+  do {
+    improve = false;
+
+    for (let i = 1; i < numCities - 1; i++) {
+      for (let j = 1; j < numCities; j++) {
+        // perform a swap operation and compare costs
+        const newPath: Array<city> = swap(path, i, j);
+        const newCost = getTravelCost(newPath);
+
+        // check if the new solution is better thanthe old one
+        if (newCost < currentCost) {
+          path = newPath;
+          improve = true;
+          currentCost = newCost;
+        }
+      }
+    }
+  } while (improve === true);
+
+  // remove last element which is added at the beginning of this function
+  // in order to get the same format with the previous solution
+  path.pop();
+
+  return currentCost;
 }
