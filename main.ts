@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { log } from './src/debug';
-import { city, distMatrix } from './src/TSP';
+import { city, distMatrix, MST } from './src/TSP';
 
 /* ======== MAIN ======== */
 // array to hold cities vector
@@ -23,4 +23,13 @@ for (let i = 0; i < lines.length; i++) {
 }
 
 log(cities);
-log(distMatrix(cities));
+
+//Create distnace matrix from cities
+const matrix = distMatrix(cities);
+log(matrix);
+
+//Create minimum spanning tree adjacency list
+const adjacencyList = MST(matrix);
+console.log(adjacencyList);
+
+
