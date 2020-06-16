@@ -7,6 +7,7 @@ import {
   match,
   eulerCitcuit,
   convertHamilton,
+  hamiltonToTSP,
 } from './src/TSP';
 
 /* ======== MAIN ======== */
@@ -49,4 +50,10 @@ const euler: Array<number> = eulerCitcuit(adjacencyList);
 log(`Euler path: ${euler}`);
 
 const hamilton: Array<number> = convertHamilton(euler);
-log(`Hamilton: ${hamilton}`)
+log(`Hamilton: ${hamilton}`);
+
+let tsp: Array<city> = [];
+let cost = hamiltonToTSP(cities, matrix, hamilton, tsp);
+
+log(`cost: ${cost}`)
+log(tsp)

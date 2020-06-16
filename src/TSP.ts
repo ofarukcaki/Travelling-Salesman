@@ -221,11 +221,26 @@ export function convertHamilton(euler: Array<number>): Array<number> {
   return tspCircuit;
 }
 
+// return the TSP cost while constructing a TSP path
 export function hamiltonToTSP(
   cities: Array<city>,
   matrix: Array<Array<number>>,
   hamilton: Array<number>,
   tsp: Array<city>
 ): number {
-  for (let i = 0; hamilton.length - 1; i++) {}
+  let cost = 0;
+  // console.log(hamilton);
+  // console.log(hamilton.length);
+  for (let i = 0; i < hamilton.length - 1; i++) {
+    // console.log(i, hamilton[i], hamilton[i + 1]);
+    // cost between two city
+    cost += matrix[hamilton[i]][hamilton[i + 1]];
+    tsp.push(cities[hamilton[i]]);
+  }
+
+  const last = hamilton[hamilton.length - 1];
+  tsp.push(cities[last]);
+  cost += matrix[hamilton[0]][last];
+
+  return cost;
 }
