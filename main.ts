@@ -1,6 +1,13 @@
 import fs from 'fs';
 import { log } from './src/debug';
-import { city, distMatrix, MST } from './src/TSP';
+import {
+  city,
+  distMatrix,
+  MST,
+  match,
+  eulerCitcuit,
+  convertHamilton,
+} from './src/TSP';
 
 /* ======== MAIN ======== */
 // array to hold cities vector
@@ -30,6 +37,16 @@ log(matrix);
 
 //Create minimum spanning tree adjacency list
 const adjacencyList = MST(matrix);
-console.log(adjacencyList);
+log(adjacencyList);
 
+log('--------------');
 
+match(adjacencyList, matrix);
+
+log(adjacencyList);
+
+const euler: Array<number> = eulerCitcuit(adjacencyList);
+log(`Euler path: ${euler}`);
+
+const hamilton: Array<number> = convertHamilton(euler);
+log(`Hamilton: ${hamilton}`)
