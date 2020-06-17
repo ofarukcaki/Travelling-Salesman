@@ -99,10 +99,15 @@ let cost = hamiltonToTSP(cities, matrix, hamilton, tsp);
 console.log(`cost: ${cost}`);
 log(tsp);
 
-// if (cities.length < 3000) {
-//   cost = twoOpt(tsp);
-//   console.log('cost after 2-opt: ', cost);
-// }
+if (cities.length < 3000) {
+  const res = twoOpt(tsp);
+  cost = res.cost;
+  console.log('cost after 2-opt: ', cost);
+  tsp = res.path;
+  // remove last element which is added at the beginning of this function
+  // in order to get the same format with the previous solution
+  tsp.pop();
+}
 
 // prepare the output to print instead writing to a file each time in a loop
 // because it is way more slower sicnde it requires to open/close file in each loop

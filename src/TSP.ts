@@ -10,11 +10,10 @@ export interface city {
 function distanceBetween(city1: city, city2: city) {
   const distX = city1.x - city2.x;
   const distY = city1.y - city2.y;
-  const res= Math.round(Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2)));
+  const res = Math.round(Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2)));
   // console.log(`Dist between ${city1.x},${city1.y} and ${city2.x},${city2.y} is ${res}`);
   return res;
 }
-
 
 // let city1 = { id: 1, x: 0, y: 2 };
 // let city2 = { id: 2, x: 2, y: 3 };
@@ -278,12 +277,13 @@ export function twoOpt(path: Array<city>) {
     for (let i = 1; i < numCities - 1; i++) {
       for (let j = 1; j < numCities; j++) {
         // perform a swap operation and compare costs
-        const newPath: Array<city> = swap(path, i, j);
+        let newPath: Array<city> = [...path];
+        newPath = swap(newPath, i, j);
         const newCost = getTravelCost(newPath);
 
         // check if the new solution is better thanthe old one
         if (newCost < currentCost) {
-          path = newPath;
+          path = [...newPath];
           improve = true;
           currentCost = newCost;
         }
@@ -291,9 +291,5 @@ export function twoOpt(path: Array<city>) {
     }
   } while (improve === true);
 
-  // remove last element which is added at the beginning of this function
-  // in order to get the same format with the previous solution
-  path.pop();
-
-  return currentCost;
+  return { cost: currentCost, path: path };
 }
