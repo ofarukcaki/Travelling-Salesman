@@ -37,7 +37,10 @@ function minKey(
   return minIndex;
 }
 
-//
+// Find the minimum spanning tree of a graph.
+// Uses Prim's algorithm because grapgh contains lots of edges and
+// Prim's algorith is a wiser choise over Kruskal algorithm
+// in this particual example TSP problem
 export function MST(matrix: Array<Array<number>>): Array<Array<number>> {
   const size = matrix.length;
 
@@ -87,13 +90,15 @@ export function MST(matrix: Array<Array<number>>): Array<Array<number>> {
 }
 
 // fill the given array with provided value
+// use to initially fill defined by uninitialized empty arrays to prevent unexpected errors
+// runs in constant time
 function fill(array: Array<any>, content: any) {
   for (let i = 0; i < array.length; i++) {
     array[i] = content;
   }
 }
 
-// Algorithm for matching odd degree vertices in the MST to the ones closest to it. Will provide a near-minimal perfect matching
+// used to match odd-degree pairs in the given minimum spanning tree as adjacency list.
 export function match(
   mst: Array<Array<number>>,
   distMatrix: Array<Array<number>>
@@ -133,6 +138,7 @@ export function match(
   }
 }
 
+// function that converts given adjacency list into euler circuit using Hierholzer's algorithm
 export function eulerCitcuit(adjList: Array<Array<number>>) {
   let edgeCount = new Map();
 
@@ -188,7 +194,8 @@ export function eulerCitcuit(adjList: Array<Array<number>>) {
   return circuit.reverse();
 }
 
-// function that receives a euler cycle and convert to hamilton cycle
+// function that receives a euler cycle and convert to hamilton path
+// by removing redundant nodes (cities)
 export function convertHamilton(euler: Array<number>): Array<number> {
   const size = euler.length;
   let visited: Array<boolean> = new Array(size);
@@ -231,15 +238,20 @@ export function hamiltonToTSP(
   return cost;
 }
 
+// calculates the total distance of path of given array of city objects.
 function getTravelCost(path: Array<city>) {
   let cost = 0;
 
   for (let i = 0; i < path.length - 1; i++)
+    // get distance between two cities
     cost += distanceBetween(path[i], path[i + 1]);
 
   return cost;
 }
 
+// function to swap parts of a path
+// only used for small inputs sizes in two-opt method
+// because it has exponential complexity
 function swap(path: Array<city>, i: number, j: number) {
   // new path
   let newPath: Array<city> = [];
