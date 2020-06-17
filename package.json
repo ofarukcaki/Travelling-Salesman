@@ -4,7 +4,8 @@
   "main": "main.js",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node main.ts"
+    "start": "ts-node main.ts",
+    "compile" : "tsc main.ts"
   },
   "devDependencies": {
     "@types/node": "^14.0.13",
